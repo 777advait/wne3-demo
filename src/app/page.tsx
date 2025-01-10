@@ -1,7 +1,5 @@
 import Container from "@/components/Container";
 import PromptInput from "@/components/PromptInput";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 
 export default function HomePage() {
   return (
