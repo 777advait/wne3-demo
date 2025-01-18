@@ -1,55 +1,32 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
+import Image from "next/image";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import Container from "@/components/Container";
+import { ArrowRight } from "lucide-react";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-black text-white relative overflow-hidden">
-      {/* Purple gradient orb on the left */}
-      <div className="absolute left-20 bottom-20 w-64 h-64 bg-purple-500/30 rounded-full blur-3xl" />
-      
-      {/* Purple X shape on the right */}
-      <div className="absolute right-20 top-1/2 w-64 h-64">
-        <Image
-          src="/purple-x.png"
-          alt="Decorative X"
-          width={256}
-          height={256}
-          className="opacity-80"
-        />
-      </div>
-
-      {/* Hero Content */}
-      <div className="max-w-7xl mx-auto px-4 pt-32 pb-20 relative z-10 text-center">
-        {/* Logo */}
-        
-        
-        {/* Subtitle */}
-        <p className="text-purple-400 text-xl mb-4">Introducing WNE3 Live</p>
-        
-        {/* Main Heading */}
-        <h1 className="text-6xl font-bold leading-tight mb-6 mx-auto">
-          Ecommerce powered by Generative AI
-        </h1>
-        
-        {/* Subheading */}
-        <p className="text-2xl text-gray-300 mb-12">
-          Your imagination is your product
-        </p>
-        
-        {/* CTA Button */}
-        <Button
-          asChild
-          className="bg-white text-black hover:bg-gray-100 rounded-full px-8 py-6 text-lg font-medium"
-        >
-          <Link href="search">
-            Get Started →
-          </Link>
-        </Button>
-
-        {/* Dashboard Preview */}
-        <div className="mt-20 relative">
-          <div className="bg-zinc-900 rounded-lg border border-zinc-800 shadow-2xl overflow-hidden">
+    <main className="relative">
+      <Container>
+        <div className="flex flex-col items-center justify-center gap-8">
+          <div className="rounded-full border border-accent bg-card px-4 py-1 text-sm font-medium shadow-md">
+            Introducing WNE3 Live 🎉
+          </div>
+          <h1 className="w-3/4 bg-gradient-to-br from-foreground to-background/0 bg-clip-text text-center text-6xl font-semibold text-transparent">
+            Building the next-gen ecommerce experience
+          </h1>
+          <div className="">
+            <Button
+              size="lg"
+              className="rounded-full bg-foreground px-8 py-1 text-lg font-semibold text-background hover:bg-foreground/90"
+              asChild
+            >
+              <Link href="/search">
+                Get Started <ArrowRight />
+              </Link>
+            </Button>
+          </div>
+          <div className="">
             <Image
               src="https://www.wne3.com/assets/merchandise%20store-EXOmCLaO.svg"
               alt="WNE3 Dashboard Preview"
@@ -60,7 +37,7 @@ export default function Home() {
             />
           </div>
         </div>
-      </div>
+      </Container>
     </main>
   );
 }
