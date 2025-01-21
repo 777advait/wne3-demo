@@ -12,7 +12,7 @@ export default function Home() {
           <div className="rounded-full border border-accent bg-card px-4 py-1 text-sm font-medium shadow-md">
             Introducing WNE3 Live 🎉
           </div>
-          <h1 className="w-3/4 bg-gradient-to-br from-foreground to-background/0 bg-clip-text text-center text-6xl font-semibold text-transparent">
+          <h1 className="w-3/4 text-center text-6xl font-semibold text-offwhite">
             Building the next-gen ecommerce experience
           </h1>
           <div className="">

@@ -12,6 +12,9 @@ const config = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  images: {
+    domains: ["files.cdn.printful.com"], // Add your external domain here
+  },
 };
 
 export default config;

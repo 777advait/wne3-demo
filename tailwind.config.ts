@@ -6,6 +6,9 @@ export default {
   content: ["./src/**/*.tsx"],
   theme: {
     extend: {
+      color: {
+        offwhite: '#f5f5f5',
+      },
       fontFamily: {
         inter: ["var(--font-inter)"],
         russoOne: ["var(--font-russo-one)"],
