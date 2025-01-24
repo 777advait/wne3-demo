@@ -1,61 +1,47 @@
-"use client";
-
 import Container from "@/components/Container";
 import { getProducts } from "@/lib/get-products";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
+import React, { Suspense } from "react";
 import PromptInput from "@/components/PromptInput"; // Import the PromptInput component
+import { ProductDetails } from "@/lib/definitions";
+import { Eye } from "lucide-react";
 
 // ProductCard Component
-function ProductCard(props: {
-  id: number;
-  title: string;
-  image: string;
-  description: string;
-}) {
+function ProductCard(props: ProductDetails) {
   return (
-    <div className="cursor-pointer rounded-md border bg-card p-4 shadow-md hover:bg-card/50">
-      <div className="space-y-4">
-        <div className="flex flex-col items-center justify-center">
+    <div className="flex h-full w-full flex-col overflow-hidden rounded-md border bg-card shadow-md transition-all duration-300 ease-in-out hover:shadow-lg">
+      <Link href={`/product/${props.id}`} className="relative">
+        <div className="relative aspect-square w-full">
           <Image
             src={props.image}
             alt={props.title}
-            width={200}
-            height={200}
-            className="rounded-md"
+            fill
+            className="object-cover transition-transform duration-300 ease-in-out"
           />
+          <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 transition-opacity duration-300 ease-in-out hover:opacity-100">
+            <Eye className="h-10 w-10 text-white" aria-hidden="true" />
+            <span className="sr-only">View product details</span>
+          </div>
         </div>
-        <div className="space-y-2">
+      </Link>
+      <div className="p-4 pb-6">
+        <h3 className="line-clamp-2 text-lg font-semibold text-foreground">
           <Link
             href={`/product/${props.id}`}
-            className="font-semibold underline-offset-4 hover:underline"
+            className="hover:underline hover:underline-offset-4"
           >
             {props.title}
           </Link>
-          <p className="truncate text-sm text-muted-foreground">
-            {props.description}
-          </p>
-        </div>
+        </h3>
       </div>
     </div>
   );
 }
 
 // HomePage Component
-export default function HomePage() {
-  const [products, setProducts] = useState<
-    { id: number; title: string; image: string; description: string }[]
-  >([]);
-  const [inputValue, setInputValue] = useState(""); // State to manage input value
-
-  useEffect(() => {
-    console.log("Fetching products..."); // Debugging
-    getProducts().then((data) => {
-      setProducts(data); // Set the products
-    });
-  }, []); // Fetch products only once
+export default async function HomePage() {
+  const products = await getProducts();
 
   return (
     <main>
@@ -63,24 +49,29 @@ export default function HomePage() {
         <div className="space-y-6">
           {/* Generate Section */}
           <div className="space-y-4">
-            <h1 className="font-inter text-4xl font-semibold leading-[150%] text-offwhite">
+            <h1 className="bg-gradient-to-br from-foreground to-background/0 bg-clip-text font-inter text-4xl font-semibold leading-[150%] text-transparent">
               Whats on your mind today?
             </h1>
             <div className="">
-              <PromptInput
-                initialValue={inputValue}
-                onValueChange={setInputValue}
-              />
+              <PromptInput />
             </div>
           </div>
 
           {/* Products Grid */}
           <div className="pt-8">
-            <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
-              {products.map((product) => (
-                <ProductCard key={product.id} {...product} />
-              ))}
-            </div>
+            {products ? (
+              <div className="grid grid-cols-2 gap-6 md:grid-cols-3">
+                {products.map((product) => (
+                  <Suspense key={product.id} fallback="Loading...">
+                    <ProductCard {...product} />
+                  </Suspense>
+                ))}
+              </div>
+            ) : (
+              <div className="py-10 text-center text-2xl font-semibold text-muted-foreground">
+                Error fetching products. Please refresh the page.
+              </div>
+            )}
           </div>
         </div>
       </Container>

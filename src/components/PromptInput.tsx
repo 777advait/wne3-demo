@@ -10,26 +10,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ButtonLoading } from "./ui/button-loading";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { useEffect } from "react";
 
 // PromptInput Component
-export default function PromptInput({
-  initialValue,
-  onValueChange,
-}: {
-  initialValue: string;
-  onValueChange: (value: string) => void;
-}) {
+export default function PromptInput() {
   const form = useForm<z.infer<typeof promptFormInput>>({
-    defaultValues: { prompt: initialValue }, // Initialize with the passed value
+    defaultValues: { prompt: "" }, // Initialize with the passed value
     resolver: zodResolver(promptFormInput),
   });
   const router = useRouter();
-
-  // Update the form value when initialValue changes
-  useEffect(() => {
-    form.setValue("prompt", initialValue);
-  }, [initialValue, form]);
 
   async function onSubmit(data: z.infer<typeof promptFormInput>) {
     console.log(data);
@@ -70,10 +58,6 @@ export default function PromptInput({
                     className="min-h-20 resize-none rounded-xl p-4 enabled:text-lg"
                     placeholder="Imagination is the only limit..."
                     {...field}
-                    onChange={(e) => {
-                      field.onChange(e); // Update form value
-                      onValueChange(e.target.value); // Notify parent component
-                    }}
                   />
                   {form.formState.isSubmitting ? (
                     <ButtonLoading className="absolute bottom-4 right-4">

@@ -1,13 +1,8 @@
 "use server";
 
-export async function getProducts(): Promise<
-  {
-    id: number;
-    title: string;
-    image: string;
-    description: string;
-  }[]
-> {
+import { ProductDetails } from "./definitions";
+
+export async function getProducts(): Promise<ProductDetails[] | null> {
   const response = await fetch("https://api.printful.com/products", {
     cache: "no-store",
   });

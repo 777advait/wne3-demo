@@ -13,7 +13,7 @@ const config = {
     ignoreDuringBuilds: true,
   },
   images: {
-    domains: ["files.cdn.printful.com"], // Add your external domain here
+    remotePatterns: [{ hostname: "files.cdn.printful.com" }]
   },
 };
 

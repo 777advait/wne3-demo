@@ -29,6 +29,7 @@ export default function RootLayout({
       className={`${inter.variable} ${dmSans.variable} ${russoOne.variable} antialiased`}
     >
       <body className="">
+        
         <Navbar />
         {children}
         <Footer />
