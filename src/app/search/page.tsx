@@ -2,7 +2,7 @@ import Container from "@/components/Container";
 import { getProducts } from "@/lib/get-products";
 import Image from "next/image";
 import Link from "next/link";
-import React, { Suspense } from "react";
+import React from "react";
 import PromptInput from "@/components/PromptInput"; // Import the PromptInput component
 import { ProductDetails } from "@/lib/definitions";
 import { Eye } from "lucide-react";
@@ -62,9 +62,7 @@ export default async function HomePage() {
             {products ? (
               <div className="grid grid-cols-2 gap-6 md:grid-cols-3">
                 {products.map((product) => (
-                  <Suspense key={product.id} fallback="Loading...">
-                    <ProductCard {...product} />
-                  </Suspense>
+                  <ProductCard key={product.id} {...product} />
                 ))}
               </div>
             ) : (
