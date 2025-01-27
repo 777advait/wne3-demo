@@ -39,8 +39,20 @@ export default async function Page({ params }: { params: { id: string } }) {
               className="object-cover"
             />
           </div>
-          <div className="max-w-[50%] space-y-6 py-4">
+          <div className="max-w-[50%] space-y-4 py-4">
             <h1 className="text-4xl font-semibold">{product.data.title}</h1>
+            <p className="font-medium text-muted-foreground">
+              {new Date(product.data.created_at).toLocaleDateString("en-US", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+              })}{" "}
+              •{" "}
+              {product.data.time_taken
+                ? product.data.time_taken.toFixed(2)
+                : "N/A"}{" "}
+              seconds
+            </p>
             <p className="text-muted-foreground">
               Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nisi
               provident veritatis dolores magnam dignissimos modi, quas eum

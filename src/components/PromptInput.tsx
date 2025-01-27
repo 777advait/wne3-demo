@@ -23,6 +23,7 @@ export default function PromptInput() {
   const router = useRouter();
 
   async function onSubmit(data: z.infer<typeof promptFormInput>) {
+    const start = new Date();
     // Send an API call to image generation module
     toast("Generation started", {
       description: "This may take a while...",
@@ -45,11 +46,14 @@ export default function PromptInput() {
       return;
     }
 
+    const end = new Date();
+
     // Save the product image and mockup to the database
     const { data: product } = await createProduct({
       title: data.prompt,
       image_url: image.data,
       mockup_url: mockup.data,
+      time_taken: (end.getTime() - start.getTime()) / 1000,
     });
 
     if (!product) {

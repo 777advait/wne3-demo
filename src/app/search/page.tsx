@@ -80,7 +80,8 @@ export default async function HomePage() {
             )}
           </div>
 
-          <div className="pt-8">
+          <div className="space-y-6 pt-8">
+            <h2 className="text-2xl font-semibold">Other Products</h2>
             {products ? (
               <div className="grid grid-cols-2 gap-6 md:grid-cols-3">
                 {products.map((product) => (

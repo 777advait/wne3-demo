@@ -11,4 +11,5 @@ export const productSchema = sqliteTable("product", {
   created_at: integer({ mode: "timestamp_ms" })
     .notNull()
     .default(sql`(unixepoch() * 1000)`),
+  time_taken: integer(),
 });
