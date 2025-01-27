@@ -13,7 +13,7 @@ const config = {
     ignoreDuringBuilds: true,
   },
   images: {
-    remotePatterns: [{ hostname: "files.cdn.printful.com" }]
+    remotePatterns: [{ hostname: "files.cdn.printful.com" }, { hostname: "wne3blobstorage.blob.core.windows.net" },]
   },
 };
 

@@ -11,23 +11,36 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart, ShoppingBag } from "lucide-react";
+import { getProduct } from "@/server/db/queries";
+import Image from "next/image";
 
-export default async function Page({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  const { id } = await params;
+export default async function Page({ params }: { params: { id: string } }) {
+  const { id } = params;
+
+  const product = await getProduct(id);
+
+  if (!product.success || product.data === null) {
+    return (
+      <div className="py-20 text-center text-2xl font-semibold text-muted-foreground">
+        {product.message}
+      </div>
+    );
+  }
 
   return (
     <main>
       <Container>
         <div className="flex gap-8">
-          <div className="flex aspect-square w-[45%] flex-col items-center justify-center rounded-lg border border-dashed border-muted-foreground text-2xl font-medium text-muted-foreground">
-            Generated Mockup Will Appear Here
+          <div className="relative aspect-square w-[45%] overflow-hidden rounded-lg">
+            <Image
+              src={product.data.mockup_url}
+              alt={product.data.title}
+              fill={true}
+              className="object-cover"
+            />
           </div>
           <div className="max-w-[50%] space-y-6 py-4">
-            <h1 className="text-4xl font-semibold">[Product Title]</h1>
+            <h1 className="text-4xl font-semibold">{product.data.title}</h1>
             <p className="text-muted-foreground">
               Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nisi
               provident veritatis dolores magnam dignissimos modi, quas eum
@@ -54,15 +67,11 @@ export default async function Page({
             <p className="text-lg font-medium">Price: ₹ 1500</p>
             <div className="flex items-center gap-4">
               <Button className="hover:bg-muted" variant="outline">
-                <span>
-                  <ShoppingCart />
-                </span>
+                <ShoppingCart className="mr-2 h-4 w-4" />
                 Add to Cart
               </Button>
               <Button>
-                <span>
-                  <ShoppingBag />
-                </span>
+                <ShoppingBag className="mr-2 h-4 w-4" />
                 Buy Now
               </Button>
             </div>

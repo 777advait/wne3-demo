@@ -14,7 +14,7 @@ export async function generateMockup(
       body: JSON.stringify({
         image_url,
       }),
-    });
+    }); 
 
     if (!res.ok) {
       console.log(await res.json());

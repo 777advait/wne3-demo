@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { generateImage } from "@/server/actions/generate-image";
 import { generateMockup } from "@/server/actions/generate-mockup";
+import { createProduct } from "@/server/db/queries";
 
 // PromptInput Component
 export default function PromptInput() {
@@ -39,19 +40,28 @@ export default function PromptInput() {
     });
     const mockup = await generateMockup([image.data]);
 
-    if (!mockup.success) {
+    if (!mockup.success || mockup.data === null) {
       toast.error(mockup.message);
       return;
     }
 
     // Save the product image and mockup to the database
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    const { data: product } = await createProduct({
+      title: data.prompt,
+      image_url: image.data,
+      mockup_url: mockup.data,
+    });
+
+    if (!product) {
+      toast.error("Failed to create product");
+      return;
+    }
 
     // Redirect to the product page
     toast("Your product is ready!", {
       description: "Redirecting to the product page...",
     });
-    router.push("/product/hahaha");
+    router.push(`/product/${product.id}`);
   }
 
   return (
