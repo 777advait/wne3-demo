@@ -10,6 +10,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ButtonLoading } from "./ui/button-loading";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { generateImage } from "@/server/actions/generate-image";
+import { generateMockup } from "@/server/actions/generate-mockup";
 
 // PromptInput Component
 export default function PromptInput() {
@@ -20,19 +22,27 @@ export default function PromptInput() {
   const router = useRouter();
 
   async function onSubmit(data: z.infer<typeof promptFormInput>) {
-    console.log(data);
-
     // Send an API call to image generation module
     toast("Generation started", {
       description: "This may take a while...",
     });
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    const image = await generateImage(data.prompt);
+
+    if (!image.success || image.data === null) {
+      toast.error(image.message);
+      return;
+    }
 
     // Send an API call to mockup generation module
     toast("Generating mockup...", {
       description: "We're almost there!",
     });
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    const mockup = await generateMockup([image.data]);
+
+    if (!mockup.success) {
+      toast.error(mockup.message);
+      return;
+    }
 
     // Save the product image and mockup to the database
     await new Promise((resolve) => setTimeout(resolve, 1000));
