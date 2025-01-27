@@ -64,3 +64,35 @@ export async function getProduct(
     };
   }
 }
+
+export async function getProducts(): Promise<{
+  data: SelectProduct[] | null;
+  success: boolean;
+  message: string;
+}> {
+  try {
+    const products = await db.query.productSchema.findMany();
+
+    if (!products) {
+      return {
+        success: false,
+        data: null,
+        message: "Failed to fetch products",
+      };
+    }
+
+    return {
+      success: true,
+      data: products,
+      message: "Products fetched successfully",
+    };
+  } catch (error) {
+    console.error(error);
+
+    return {
+      success: false,
+      data: null,
+      message: "Failed to fetch products",
+    };
+  }
+}

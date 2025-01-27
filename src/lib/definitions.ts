@@ -8,8 +8,8 @@ export const promptFormInput = z.object({
 });
 
 export type ProductDetails = {
-  id: number;
+  id: number | string;
   title: string;
   image: string;
-  description: string;
+  description?: string;
 };

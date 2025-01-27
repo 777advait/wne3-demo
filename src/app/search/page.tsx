@@ -6,6 +6,7 @@ import React from "react";
 import PromptInput from "@/components/PromptInput"; // Import the PromptInput component
 import { ProductDetails } from "@/lib/definitions";
 import { Eye } from "lucide-react";
+import { getProducts as getPopularProducts } from "@/server/db/queries";
 
 // ProductCard Component
 function ProductCard(props: ProductDetails) {
@@ -42,6 +43,7 @@ function ProductCard(props: ProductDetails) {
 // HomePage Component
 export default async function HomePage() {
   const products = await getProducts();
+  const popularProducts = await getPopularProducts();
 
   return (
     <main>
@@ -58,6 +60,26 @@ export default async function HomePage() {
           </div>
 
           {/* Products Grid */}
+          <div className="space-y-6 pt-8">
+            <h2 className="text-2xl font-semibold">Popular Products</h2>
+            {popularProducts.success && popularProducts.data ? (
+              <div className="grid grid-cols-2 gap-6 md:grid-cols-3">
+                {popularProducts.data.map((product) => (
+                  <ProductCard
+                    key={product.id}
+                    id={product.id}
+                    image={product.mockup_url}
+                    title={product.title}
+                  />
+                ))}
+              </div>
+            ) : (
+              <div className="py-10 text-center text-2xl font-semibold text-muted-foreground">
+                Error fetching products. Please refresh the page.
+              </div>
+            )}
+          </div>
+
           <div className="pt-8">
             {products ? (
               <div className="grid grid-cols-2 gap-6 md:grid-cols-3">
