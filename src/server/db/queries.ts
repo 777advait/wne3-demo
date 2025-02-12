@@ -65,13 +65,15 @@ export async function getProduct(
   }
 }
 
-export async function getProducts(): Promise<{
+export async function getProducts(limit?: number): Promise<{
   data: SelectProduct[] | null;
   success: boolean;
   message: string;
 }> {
   try {
-    const products = await db.query.productSchema.findMany();
+    const products = await db.query.productSchema.findMany({
+      limit: limit ?? undefined,
+    });
 
     if (!products) {
       return {

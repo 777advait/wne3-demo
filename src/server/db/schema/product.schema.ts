@@ -9,7 +9,7 @@ export const productSchema = sqliteTable("product", {
   image_url: text().notNull(),
   mockup_url: text().notNull(),
   created_at: integer({ mode: "timestamp_ms" })
-    .notNull()
-    .default(sql`(unixepoch() * 1000)`),
+    .default(sql`(current_timestamp)`)
+    .notNull(),
   time_taken: integer(),
 });

@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { generateImage } from "@/server/actions/generate-image";
 import { generateMockup } from "@/server/actions/generate-mockup";
 import { createProduct } from "@/server/db/queries";
+import { Input } from "./ui/input";
 
 // PromptInput Component
 export default function PromptInput() {
@@ -77,18 +78,21 @@ export default function PromptInput() {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <div className="relative">
-                  <Textarea
-                    className="min-h-20 resize-none rounded-xl p-4 enabled:text-lg"
+                <div className="flex items-center gap-4">
+                  <Input
+                    className="w-full rounded-lg py-5"
                     placeholder="Imagination is the only limit..."
                     {...field}
                   />
                   {form.formState.isSubmitting ? (
-                    <ButtonLoading className="absolute bottom-4 right-4">
+                    <ButtonLoading className="rounded-full bg-white text-black hover:bg-white/75">
                       Generating...
                     </ButtonLoading>
                   ) : (
-                    <Button type="submit" className="absolute bottom-4 right-4">
+                    <Button
+                      type="submit"
+                      className="rounded-full bg-white text-black hover:bg-white/75"
+                    >
                       Generate
                     </Button>
                   )}

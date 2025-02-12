@@ -5,36 +5,35 @@ import Link from "next/link";
 import React from "react";
 import PromptInput from "@/components/PromptInput"; // Import the PromptInput component
 import { ProductDetails } from "@/lib/definitions";
-import { Eye } from "lucide-react";
+import { Eye, ShoppingCart } from "lucide-react";
 import { getProducts as getPopularProducts } from "@/server/db/queries";
+import { Button } from "@/components/ui/button";
 
 // ProductCard Component
 function ProductCard(props: ProductDetails) {
   return (
-    <div className="flex h-full w-full flex-col overflow-hidden rounded-md border bg-card shadow-md transition-all duration-300 ease-in-out hover:shadow-lg">
+    <div className="flex h-full w-full flex-col overflow-hidden text-center">
       <Link href={`/product/${props.id}`} className="relative">
-        <div className="relative aspect-square w-full">
+        <div className="aspect-square w-full">
           <Image
             src={props.image}
             alt={props.title}
             fill
             className="object-cover transition-transform duration-300 ease-in-out"
           />
-          <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 transition-opacity duration-300 ease-in-out hover:opacity-100">
-            <Eye className="h-10 w-10 text-white" aria-hidden="true" />
-            <span className="sr-only">View product details</span>
-          </div>
         </div>
       </Link>
-      <div className="p-4 pb-6">
-        <h3 className="line-clamp-2 text-lg font-semibold text-foreground">
-          <Link
-            href={`/product/${props.id}`}
-            className="hover:underline hover:underline-offset-4"
-          >
-            {props.title}
-          </Link>
+      <div className="space-y-2 p-4 pb-6">
+        <h3 className="line-clamp-1 font-semibold uppercase text-foreground">
+          <Link href={`/product/${props.id}`}>{props.title}</Link>
         </h3>
+        <p className="text-sm font-medium text-muted-foreground">
+          100% Organic Cotton, Machine Washable
+        </p>
+        <Button variant="secondary">
+          <ShoppingCart className="mr-2 h-4 w-4" />
+          Add to Cart
+        </Button>
       </div>
     </div>
   );
@@ -42,8 +41,7 @@ function ProductCard(props: ProductDetails) {
 
 // HomePage Component
 export default async function HomePage() {
-  const products = await getProducts();
-  const popularProducts = await getPopularProducts();
+  const popularProducts = await getPopularProducts(3);
 
   return (
     <main>
@@ -61,7 +59,9 @@ export default async function HomePage() {
 
           {/* Products Grid */}
           <div className="space-y-6 pt-8">
-            <h2 className="text-2xl font-semibold">Popular Products</h2>
+            <h2 className="text-center text-foreground/75 text-2xl font-semibold uppercase">
+              Popular Products
+            </h2>
             {popularProducts.success && popularProducts.data ? (
               <div className="grid grid-cols-2 gap-6 md:grid-cols-3">
                 {popularProducts.data.map((product) => (
@@ -81,11 +81,18 @@ export default async function HomePage() {
           </div>
 
           <div className="space-y-6 pt-8">
-            <h2 className="text-2xl font-semibold">Other Products</h2>
-            {products ? (
+            <h2 className="text-center text-foreground/75 text-2xl font-semibold uppercase">
+              Other Products
+            </h2>
+            {popularProducts.success && popularProducts.data ? (
               <div className="grid grid-cols-2 gap-6 md:grid-cols-3">
-                {products.map((product) => (
-                  <ProductCard key={product.id} {...product} />
+                {popularProducts.data.map((product) => (
+                  <ProductCard
+                    key={product.id}
+                    id={product.id}
+                    image={product.mockup_url}
+                    title={product.title}
+                  />
                 ))}
               </div>
             ) : (
