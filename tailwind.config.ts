@@ -7,7 +7,7 @@ export default {
   theme: {
     extend: {
       color: {
-        offwhite: '#f5f5f5',
+        offwhite: "#f5f5f5",
       },
       fontFamily: {
         inter: ["var(--font-inter)"],
@@ -58,6 +58,15 @@ export default {
           "3": "hsl(var(--chart-3))",
           "4": "hsl(var(--chart-4))",
           "5": "hsl(var(--chart-5))",
+        },
+      },
+      animation: {
+        marquee: "marquee 25s linear infinite",
+      },
+      keyframes: {
+        marquee: {
+          "0%": { transform: "translateX(0%)" },
+          "100%": { transform: "translateX(-100%)" },
         },
       },
     },

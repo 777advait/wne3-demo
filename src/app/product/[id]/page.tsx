@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { ShoppingCart, ShoppingBag } from "lucide-react";
 import { getProduct } from "@/server/db/queries";
 import Image from "next/image";
+import { ProductPreview } from "@/components/ProductPreview";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const { id } = params;
@@ -27,17 +28,22 @@ export default async function Page({ params }: { params: { id: string } }) {
     );
   }
 
+  const productImages = [
+    { url: product.data.mockup_url, alt: product.data.title },
+    {
+      url: "/assets/tshirt-back-view.png",
+      alt: `${product.data.title} back view`,
+    },
+    { url: "/assets/tshirt-detail.png", alt: `${product.data.title} detail` },
+    // Add more images as needed
+  ];
+
   return (
     <main>
       <Container>
         <div className="flex gap-8">
-          <div className="relative aspect-square w-[45%] overflow-hidden rounded-lg">
-            <Image
-              src={product.data.mockup_url}
-              alt={product.data.title}
-              fill={true}
-              className="object-cover"
-            />
+          <div className="w-[45%]">
+            <ProductPreview images={productImages} title={product.data.title} />
           </div>
           <div className="max-w-[50%] space-y-4 py-4">
             <h1 className="text-4xl font-semibold">{product.data.title}</h1>
