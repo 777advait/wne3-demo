@@ -13,3 +13,8 @@ export type ProductDetails = {
   image: string;
   description?: string;
 };
+
+export const productFormInput = z.object({
+  color: z.string().min(1, { message: "Color is required" }),
+  size: z.string().min(1, { message: "Size is required" }),
+});

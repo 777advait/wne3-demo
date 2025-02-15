@@ -9,19 +9,6 @@ import { getProducts as getPopularProducts } from "@/server/db/queries";
 import { Button } from "@/components/ui/button";
 import ImageTicker from "@/components/ImageTicker";
 
-const images = [
-  "/assets/castle-in-the-river.png",
-  "/assets/cute-couple.png",
-  "/assets/farm-robot.png",
-  "/assets/floating-library.png",
-  "/assets/treehouse-cafe.png",
-  "/assets/castle-in-the-river.png",
-  "/assets/cute-couple.png",
-  "/assets/farm-robot.png",
-  "/assets/floating-library.png",
-  "/assets/treehouse-cafe.png",
-];
-
 // ProductCard Component
 function ProductCard(props: ProductDetails) {
   return (
@@ -54,7 +41,17 @@ function ProductCard(props: ProductDetails) {
 
 // HomePage Component
 export default async function HomePage() {
-  const popularProducts = await getPopularProducts(3);
+  const popularProducts = await getPopularProducts();
+
+  if (!popularProducts.success || popularProducts.data === null) {
+    return (
+      <div className="py-20 text-center text-2xl font-semibold text-muted-foreground">
+        {popularProducts.message}
+      </div>
+    );
+  }
+
+  const images = popularProducts.data.map((product) => product.mockup_url);
 
   return (
     <main>
@@ -83,44 +80,33 @@ export default async function HomePage() {
             <h2 className="text-center text-2xl font-semibold uppercase text-foreground/75">
               Popular Products
             </h2>
-            {popularProducts.success && popularProducts.data ? (
-              <div className="grid grid-cols-2 gap-6 md:grid-cols-3">
-                {popularProducts.data.map((product) => (
-                  <ProductCard
-                    key={product.id}
-                    id={product.id}
-                    image={product.mockup_url}
-                    title={product.title}
-                  />
-                ))}
-              </div>
-            ) : (
-              <div className="py-10 text-center text-2xl font-semibold text-muted-foreground">
-                Error fetching products. Please refresh the page.
-              </div>
-            )}
+
+            <div className="grid grid-cols-2 gap-6 md:grid-cols-3">
+              {popularProducts.data.slice(0, 3).map((product) => (
+                <ProductCard
+                  key={product.id}
+                  id={product.id}
+                  image={product.mockup_url}
+                  title={product.title}
+                />
+              ))}
+            </div>
           </div>
 
           <div className="space-y-6 pt-8">
             <h2 className="text-center text-2xl font-semibold uppercase text-foreground/75">
               Other Products
             </h2>
-            {popularProducts.success && popularProducts.data ? (
-              <div className="grid grid-cols-2 gap-6 md:grid-cols-3">
-                {popularProducts.data.map((product) => (
-                  <ProductCard
-                    key={product.id}
-                    id={product.id}
-                    image={product.mockup_url}
-                    title={product.title}
-                  />
-                ))}
-              </div>
-            ) : (
-              <div className="py-10 text-center text-2xl font-semibold text-muted-foreground">
-                Error fetching products. Please refresh the page.
-              </div>
-            )}
+            <div className="grid grid-cols-2 gap-6 md:grid-cols-3">
+              {popularProducts.data.slice(0, 3).map((product) => (
+                <ProductCard
+                  key={product.id}
+                  id={product.id}
+                  image={product.mockup_url}
+                  title={product.title}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </Container>
