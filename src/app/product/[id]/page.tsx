@@ -28,7 +28,7 @@ export default async function Page({
       alt: `${product.data.title} back view`,
     },
     { url: "/assets/tshirt-detail.png", alt: `${product.data.title} detail` },
-    // Add more images as needed
+   
   ];
 
   const sizes = [
@@ -48,18 +48,18 @@ export default async function Page({
   ];
 
   return (
-    <main>
+    <main className="min-h-screen"> 
       <Container>
-        <div className="flex gap-8">
-          <div className="w-[45%]">
+        <div className="flex flex-col lg:flex-row gap-8 py-16 px-4"> 
+          <div className="lg:w-[45%] w-full"> 
             <ProductPreview images={productImages} title={product.data.title} />
           </div>
-          <div className="w-full max-w-[50%] space-y-8 py-4">
+          <div className="w-full lg:max-w-[50%] space-y-8 py-4"> 
             <div className="space-y-4">
-              <h1 className="border-b pb-4 text-4xl font-semibold capitalize">
+              <h1 className="border-b pb-4 text-3xl lg:text-4xl font-semibold capitalize"> 
                 {product.data.title}
               </h1>
-              <p className="font-medium text-muted-foreground">
+              <p className="font-medium text-sm lg:text-base"> 
                 {new Date(product.data.created_at).toLocaleDateString("en-US", {
                   day: "2-digit",
                   month: "2-digit",
@@ -71,7 +71,7 @@ export default async function Page({
                   : "N/A"}{" "}
                 seconds
               </p>
-              <p className="text-muted-foreground">
+              <p className="text-sm lg:text-base"> 
                 100% Organic Cotton, Machine Washable.
               </p>
             </div>
