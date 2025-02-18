@@ -1,13 +1,13 @@
 import Container from "@/components/Container";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
 import PromptInput from "@/components/PromptInput";
-import { ProductDetails } from "@/lib/definitions";
+import type { ProductDetails } from "@/lib/definitions";
 import { ShoppingCart } from "lucide-react";
 import { getProducts as getPopularProducts } from "@/server/db/queries";
 import { Button } from "@/components/ui/button";
 import ImageTicker from "@/components/ImageTicker";
+import Sidebar from "@/components/Sidebar";
 
 // ProductCard Component
 function ProductCard(props: ProductDetails) {
@@ -16,7 +16,7 @@ function ProductCard(props: ProductDetails) {
       <Link href={`/product/${props.id}`} className="relative">
         <div className="aspect-square w-full rounded-sm">
           <Image
-            src={props.image}
+            src={props.image || "/placeholder.svg"}
             alt={props.title}
             fill
             className="rounded-sm object-cover transition-transform duration-300 ease-in-out"
@@ -58,8 +58,8 @@ export default async function HomePage() {
       {/* Top Section */}
       <Container className="pt-2">
         <div className="space-y-4">
-          <h1 className="bg-gradient-to-br from-foreground to-background/0 bg-clip-text font-inter text-4xl font-semibold leading-[150%] text-transparent">
-            Whats on your mind today?
+          <h1 className="bg-gradient-to-br from-foreground to-background/0 bg-clip-text font-inter text-2xl font-semibold leading-[150%] text-transparent md:text-4xl">
+            What's on your mind today?
           </h1>
           <div className="">
             <PromptInput />
@@ -73,43 +73,45 @@ export default async function HomePage() {
       </div>
 
       {/* Bottom Section */}
-      <Container>
-        <div className="space-y-6">
-          {/* Products Grid */}
-          <div className="space-y-6 pt-8">
-            <h2 className="text-center text-2xl font-semibold uppercase text-foreground/75">
-              Popular Products
-            </h2>
+      <div className="flex flex-col items-baseline gap-4 md:flex-row">
+        <Sidebar />
+        <Container className="w-full md:max-w-[80%]">
+          <div className="space-y-6 px-4 md:px-8">
+            {/* Products Grid */}
+            <div className="space-y-6">
+              <h2 className="text-center text-xl font-semibold uppercase text-foreground/75 md:text-2xl">
+                Popular Products
+              </h2>
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
+                {popularProducts.data.slice(0, 3).map((product) => (
+                  <ProductCard
+                    key={product.id}
+                    id={product.id}
+                    image={product.mockup_url}
+                    title={product.title}
+                  />
+                ))}
+              </div>
+            </div>
 
-            <div className="grid grid-cols-2 gap-6 md:grid-cols-3">
-              {popularProducts.data.slice(0, 3).map((product) => (
-                <ProductCard
-                  key={product.id}
-                  id={product.id}
-                  image={product.mockup_url}
-                  title={product.title}
-                />
-              ))}
+            <div className="space-y-6 pt-8">
+              <h2 className="text-center text-xl font-semibold uppercase text-foreground/75 md:text-2xl">
+                Other Products
+              </h2>
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
+                {popularProducts.data.slice(0, 3).map((product) => (
+                  <ProductCard
+                    key={product.id}
+                    id={product.id}
+                    image={product.mockup_url}
+                    title={product.title}
+                  />
+                ))}
+              </div>
             </div>
           </div>
-
-          <div className="space-y-6 pt-8">
-            <h2 className="text-center text-2xl font-semibold uppercase text-foreground/75">
-              Other Products
-            </h2>
-            <div className="grid grid-cols-2 gap-6 md:grid-cols-3">
-              {popularProducts.data.slice(0, 3).map((product) => (
-                <ProductCard
-                  key={product.id}
-                  id={product.id}
-                  image={product.mockup_url}
-                  title={product.title}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-      </Container>
+        </Container>
+      </div>
     </main>
   );
 }
