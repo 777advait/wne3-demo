@@ -83,10 +83,6 @@ body {
   }
 }
 
-.marquee-container:hover .marquee-content {
-  animation-play-state: paused;
-}
-
 @media (max-width: 767px) {
   .marquee-container {
     mask-image: linear-gradient(

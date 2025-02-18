@@ -22,7 +22,7 @@ export function ProductPreview({ images, title }: ProductImageGalleryProps) {
     <div className="space-y-4">
       <div className="relative aspect-square w-full overflow-hidden rounded-lg">
         <Image
-          src={selectedImage || images[0]?.url as string}
+          src={selectedImage || (images[0]?.url as string)}
           alt={title}
           fill={true}
           className="object-cover"
@@ -48,6 +48,7 @@ export function ProductPreview({ images, title }: ProductImageGalleryProps) {
                 alt={`${title} view ${index + 1}`}
                 fill={true}
                 className="object-cover"
+                loading="eager"
               />
             </button>
           ))}
