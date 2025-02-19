@@ -14,7 +14,7 @@ export default function ImageTicker(props: { images: string[] }) {
           {props.images.map((src, i) => (
             <div
               key={`first-${i}`}
-              className="mx-4 inline-block h-64 w-[350px] md:h-auto"
+              className="mx-4 inline-block h-auto w-[350px] "
             >
               <Image
                 src={src}
@@ -30,7 +30,22 @@ export default function ImageTicker(props: { images: string[] }) {
           {props.images.map((src, i) => (
             <div
               key={`first-${i}`}
-              className="mx-4 inline-block h-64 w-[350px] md:h-auto"
+              className="mx-4 inline-block h-auto w-[350px] "
+            >
+              <Image
+                src={src}
+                alt={`Ticker image ${i + 1}`}
+                loading="eager"
+                width={350}
+                height={350}
+                className="h-full w-full rounded-sm object-cover shadow-md transition-transform"
+              />
+            </div>
+          ))}
+          {props.images.map((src, i) => (
+            <div
+              key={`first-${i}`}
+              className="mx-4 inline-block h-auto w-[350px] "
             >
               <Image
                 src={src}

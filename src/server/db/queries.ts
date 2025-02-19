@@ -73,6 +73,7 @@ export async function getProducts(limit?: number): Promise<{
   try {
     const products = await db.query.productSchema.findMany({
       limit: limit ?? undefined,
+      orderBy: (product, { desc }) => [desc(product.created_at)],
     });
 
     if (!products) {

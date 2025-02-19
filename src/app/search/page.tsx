@@ -16,7 +16,7 @@ function ProductCard(props: ProductDetails) {
       <Link href={`/product/${props.id}`} className="relative">
         <div className="aspect-square w-full rounded-sm">
           <Image
-            src={props.image || "/placeholder.svg"}
+            src={props.image}
             alt={props.title}
             fill
             className="rounded-sm object-cover transition-transform duration-300 ease-in-out"
@@ -99,7 +99,7 @@ export default async function HomePage() {
                 Other Products
               </h2>
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
-                {popularProducts.data.slice(0, 3).map((product) => (
+                {popularProducts.data.slice(3, 6).map((product) => (
                   <ProductCard
                     key={product.id}
                     id={product.id}
